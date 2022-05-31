@@ -9,10 +9,8 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract StakeContract is ERC20 {
 
-
-
-            event Withdrawal(address _to, uint208 amount, uint40 time);
-            event AddStack(address _from, uint208 amount, uint40 time);
+            event Withdrawal(address _to, uint208 amount, uint40 time, string actionType);
+            event AddStack(address _from, uint208 amount, uint40 time, string actionType);
             
             struct Stake{
             uint40 timeStaked;
@@ -51,7 +49,7 @@ contract StakeContract is ERC20 {
                 stake.status = true;
 
             }
-            emit AddStack(msg.sender, _amount, stake.timeStaked);
+            emit AddStack(msg.sender, _amount, stake.timeStaked, "stake");
         }
 
    function withdraw(uint208 _amount) external {
@@ -71,7 +69,7 @@ contract StakeContract is ERC20 {
         _transfer(address(this),msg.sender, _amount);
         stake.timeStaked = uint40(block.timestamp);
         stake.amount > 0? stake.status = true : stake.status = false;
-    emit Withdrawal(msg.sender, _amount, stake.timeStaked);
+    emit Withdrawal(msg.sender, _amount, stake.timeStaked, "widthdraw");
       
     } 
 
